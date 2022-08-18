@@ -14,11 +14,11 @@ namespace CollectionsMasterConsoleUI
             #region Arrays
             //TODO: Create an integer Array of size 50 - DONE
             int[] numberArray = new int[50];
-            
+
             //TODO: Create a method to populate the number array with 50 random numbers that are between 0 and 50 - DONE
-           
+
             Populater(numberArray);
-            
+
 
 
             //TODO: Print the first number of the array - DONE
@@ -88,12 +88,12 @@ namespace CollectionsMasterConsoleUI
             Console.WriteLine(numberList.Capacity);
 
             Console.WriteLine("---------------------");
-            
+
             //TODO: Create a method that prints if a user number is present in the list
             //Remember: What if the user types "abc" accident your app should handle that! - DONE
-            Console.WriteLine("What number will you search for in the number list?");           
+            Console.WriteLine("What number will you search for in the number list?");
             bool trueCheck = int.TryParse(Console.ReadLine(), out int userInput);
-            NumberChecker(numberList, userInput);           
+            NumberChecker(numberList, userInput);
             Console.WriteLine("-------------------");
 
             Console.WriteLine("All Numbers:");
@@ -111,14 +111,16 @@ namespace CollectionsMasterConsoleUI
             //TODO: Sort the list then print results
             Console.WriteLine("Sorted Evens!!");
             numberList.Sort();
+            NumberPrinter(numberList);
             //NumberPrinter(numberList);  
             Console.WriteLine("------------------");
 
             //TODO: Convert the list to an array and store that into a variable
-            
+            int[] coverted = numberList.ToArray();
 
             //TODO: Clear the list
-            
+            numberList.Clear();
+            NumberPrinter(numberList);
 
             #endregion
         }
@@ -132,76 +134,79 @@ namespace CollectionsMasterConsoleUI
                     numbers[i] = 0;
                 }
             }
-        }  
+        }
 
         private static void OddKiller(List<int> numberList)
         {
-            foreach (var item in numberList)
+            for (int i = numberList.Count - 1; i >=0; i--)  
             {
-                if (numberList[item] % 2 != 0)
+                if (numberList[i] % 2 != 0)
                 {
-                    numberList.Remove(numberList[item]);
+                    numberList.Remove(numberList[i]);
                 }
             }
-            
+
         }
 
         private static void NumberChecker(List<int> numberList, int searchNumber)
-        { 
+        {
+            bool foundNumber = false;
             foreach (int number in numberList)
             {
                 if (number == searchNumber)
                 {
-                    Console.WriteLine("Number is present");
-                }
-                else
+                    Console.WriteLine($"{searchNumber} is present");
+                    foundNumber = true;
+                    break;                    
+                }            
+
+            }
+            if (foundNumber == false)
+            {
+                Console.WriteLine($"{searchNumber} is not present");
+            }
+        }
+
+            private static void Populater(List<int> numberList)
+            {
+                Random rng = new Random();
+                for (int i = 0; i <= 50; i++)
                 {
-                    Console.WriteLine("Number not found");
+                    numberList.Add(rng.Next(51));
                 }
-            }             
-             
-        }
-
-        private static void Populater(List<int> numberList)
-        {
-            Random rng = new Random();
-            for (int i = 0; i <= 50; i++)
-            {
-                numberList.Add(rng.Next(51));
             }
-        }
 
-        private static void Populater(int[] numbers)
-        {
-            Random rng = new Random();
-            for (int i = 0; i < 50; i++)
+            private static void Populater(int[] numbers)
             {
-                numbers[i]= rng.Next(51);
+                Random rng = new Random();
+                for (int i = 0; i < 50; i++)
+                {
+                    numbers[i] = rng.Next(51);
+                }
             }
-        }        
 
-        private static void ReverseArray(int[] array)
-        {
-            for (int i = 0; i < array.Length / 2; i++)
+            private static void ReverseArray(int[] array)
             {
-                int tmp = array[i];
-                array[i] = array[array.Length - i - 1];
-                array[array.Length - i - 1] = tmp;
+                for (int i = 0; i < array.Length / 2; i++)
+                {
+                    int tmp = array[i];
+                    array[i] = array[array.Length - i - 1];
+                    array[array.Length - i - 1] = tmp;
+                }
             }
-        }
 
-        /// <summary>
-        /// Generic print method will iterate over any collection that implements IEnumerable<T>
-        /// </summary>
-        /// <typeparam name="T"> Must conform to IEnumerable</typeparam>
-        /// <param name="collection"></param>
-        private static void NumberPrinter<T>(T collection) where T : IEnumerable<int>
-        {
-            //STAY OUT DO NOT MODIFY!!
-            foreach (var item in collection)
+            /// <summary>
+            /// Generic print method will iterate over any collection that implements IEnumerable<T>
+            /// </summary>
+            /// <typeparam name="T"> Must conform to IEnumerable</typeparam>
+            /// <param name="collection"></param>
+            private static void NumberPrinter<T>(T collection) where T : IEnumerable<int>
             {
-                Console.WriteLine(item);
+                //STAY OUT DO NOT MODIFY!!
+                foreach (var item in collection)
+                {
+                    Console.WriteLine(item);
+                }
             }
         }
     }
-}
